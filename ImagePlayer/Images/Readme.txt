@@ -1,0 +1,1 @@
+﻿Place images in subfolders.

@@ -1,0 +1,1 @@
+﻿Images placed here will be used as the default when other folders have none.

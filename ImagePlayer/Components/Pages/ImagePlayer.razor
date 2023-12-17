@@ -1,0 +1,34 @@
+﻿@using Services;
+@page "/!{ImagePath}"
+@rendermode @(RenderMode.InteractiveServer);
+@implements IDisposable;
+@inject ImageCyclerContainer cyclerContainer;
+
+<div>
+    <img src="@(Cycler?.CurrentImage)" />
+</div>
+<div class="blocker" />
+
+@code {
+    [Parameter]
+    public string ImagePath { get; set; }
+
+    private ImageCycler? Cycler { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cycler = cyclerContainer.GetCycler(ImagePath);
+        Cycler.OnImageChanged += Cycler_ImageChanged;
+
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Cycler.OnImageChanged -= Cycler_ImageChanged;
+        cyclerContainer.ReleaseCycler(ImagePath);
+        Cycler = null;
+    }
+
+    public void Cycler_ImageChanged(string path) => InvokeAsync(StateHasChanged);
+}

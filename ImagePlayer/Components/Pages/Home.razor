@@ -1,0 +1,23 @@
+﻿@page "/"
+@using Services;
+@inject ImageWatcher watcher;
+
+@if (ImagePaths.Length > 0) {
+    <ul>
+        @foreach (var path in ImagePaths)
+        {
+            <li><a href="!@path">@path</a></li>
+        }
+    </ul>
+}
+
+@code {
+    string[] ImagePaths { get; set; } = new string[] { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        ImagePaths = Directory.GetDirectories(watcher.BasePath).Select(dir => Path.GetFileName(dir) ?? "").Distinct().OrderBy(e => e).ToArray();
+    }
+}

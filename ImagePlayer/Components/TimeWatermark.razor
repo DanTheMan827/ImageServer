@@ -1,0 +1,32 @@
+﻿@using System.Timers;
+@rendermode @(RenderMode.InteractiveServer);
+@implements IDisposable;
+
+<div class="timewatermark">
+    @foreach (char timeByte in binaryTime) {
+        <div class="timewatermark-@timeByte"></div>
+    }
+</div>
+
+@code {
+    private string binaryTime => Convert.ToString(DateTimeOffset.UtcNow.ToUnixTimeSeconds(), 2);
+    private System.Timers.Timer timer = new()
+    {
+        Interval = 1000,
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        timer.Elapsed += Timer_Elapsed;
+        timer.Enabled = true;
+    }
+
+    public void Dispose()
+    {
+        timer.Stop();
+        timer.Dispose();
+    }
+
+    private void Timer_Elapsed(object? sender, ElapsedEventArgs? e) => InvokeAsync(StateHasChanged);
+}
