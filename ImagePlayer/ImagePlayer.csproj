@@ -4,10 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>37c4ccf0-fd63-4c5f-a0e3-622547969ef1</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Components\ImagePlayer.razor.css" />
     <None Remove="Components\Pages\ImagePlayer.razor.css" />
     <None Remove="Components\TimeWatermark.razor.css" />
   </ItemGroup>
@@ -15,13 +17,16 @@
   <ItemGroup>
     <Content Include="Components\Pages\ImagePlayer.razor.css" />
     <Content Include="Components\TimeWatermark.razor.css" />
-    <Content Include="ImageCycler.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Components\Pages\ImagePlayer.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
+    <None Include="..\..\.dockerignore" Link=".dockerignore">
+      <DependentUpon>$(DockerDefaultDockerfile)</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
   </ItemGroup>
 
   <ItemGroup>
