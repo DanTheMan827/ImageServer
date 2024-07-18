@@ -79,7 +79,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v6 # v5.0.0
         with:
-          platforms: linux/arm64/v8
+          platforms: linux/amd64,linux/i386,linux/arm64,linux/arm/v7,linux/arm64/v8
           context: .
           file: 'ImagePlayer/Dockerfile'
           push: ${{ github.event_name != 'pull_request' }}
